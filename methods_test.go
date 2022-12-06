@@ -61,6 +61,12 @@ func TestAll(t *testing.T) {
 	})
 
 	assert.True(t, result)
+
+	result = iter.All(func(item int) bool {
+		return item > 1
+	})
+
+	assert.False(t, result)
 }
 
 func TestAny(t *testing.T) {
@@ -71,6 +77,12 @@ func TestAny(t *testing.T) {
 	})
 
 	assert.True(t, result)
+
+	result = iter.Any(func(item int) bool {
+		return item == 6
+	})
+
+	assert.False(t, result)
 }
 
 func TestForEach(t *testing.T) {
@@ -81,20 +93,4 @@ func TestForEach(t *testing.T) {
 	})
 
 	assert.Equal(t, []int{1, 2, 3, 4, 5}, iter.items)
-}
-
-func TestToSlice(t *testing.T) {
-	iter := NewIterable([]int{1, 2, 3, 4, 5})
-
-	assert.Equal(t, []int{1, 2, 3, 4, 5}, iter.ToSlice())
-}
-
-func TestToChannel(t *testing.T) {
-	iter := NewIterable([]int{1, 2, 3, 4, 5})
-
-	channel := iter.ToChannel()
-
-	for i := 1; i <= 5; i++ {
-		assert.Equal(t, i, <-channel)
-	}
 }
