@@ -12,7 +12,7 @@ func TestMap(t *testing.T) {
 		return item * 2
 	})
 
-	assert.Equal(t, []int{2, 4, 6, 8, 10}, iter.items)
+	assert.Equal(t, []int{2, 4, 6, 8, 10}, iter.ToSlice())
 }
 
 func TestFilter(t *testing.T) {
@@ -22,7 +22,7 @@ func TestFilter(t *testing.T) {
 		return item%2 == 0
 	})
 
-	assert.Equal(t, []int{2, 4}, iter.items)
+	assert.Equal(t, []int{2, 4}, iter.ToSlice())
 }
 
 func TestReduce(t *testing.T) {

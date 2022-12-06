@@ -1,25 +1,29 @@
 package go_iterable
 
 func (iter *Iterable[T]) Map(f func(T) T) *Iterable[T] {
-	iteratorCopy := NewIterable(make([]T, len(iter.items)))
-
-	for _, item := range iter.items {
-		iteratorCopy.append(f(item))
+	for index, item := range iter.items {
+		iter.items[index] = f(item)
 	}
 
-	return iteratorCopy
+	return iter
 }
 
 func (iter *Iterable[T]) Filter(f func(T) bool) *Iterable[T] {
-	iteratorCopy := NewIterable(make([]T, 0))
+	restart := false
 
-	for _, item := range iter.items {
-		if f(item) {
-			iteratorCopy.append(item)
+	for index, item := range iter.items {
+		if !f(item) {
+			iter.remove(index)
+			restart = true
+			break
 		}
 	}
 
-	return iteratorCopy
+	if restart {
+		iter.Filter(f)
+	}
+
+	return iter
 }
 
 func (iter *Iterable[T]) Reduce(f func(T, T) T, initial T) T {

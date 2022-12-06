@@ -22,6 +22,10 @@ func (iter *Iterable[T]) append(item T) {
 	iter.items = append(iter.items, item)
 }
 
+func (iter *Iterable[T]) remove(index int) {
+	iter.items = append(iter.items[:index], iter.items[index+1:]...)
+}
+
 func (iter *Iterable[T]) Next() bool {
 	if iter.index >= (len(iter.items) - 1) {
 		return false

@@ -19,6 +19,14 @@ func TestIterable_Append(t *testing.T) {
 	assert.Equal(t, iter, &Iterable[int]{items: []int{1, 2, 3, 4, 5, 6}, index: -1})
 }
 
+func TestIterable_Remove(t *testing.T) {
+	iter := NewIterable([]int{1, 2, 3, 4, 5})
+
+	iter.remove(2)
+
+	assert.Equal(t, iter, &Iterable[int]{items: []int{1, 2, 4, 5}, index: -1})
+}
+
 func TestIterable_Next(t *testing.T) {
 	iter := NewIterable([]int{1, 2, 3, 4, 5})
 
