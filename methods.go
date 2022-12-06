@@ -1,9 +1,9 @@
-package iterator
+package go_iterable
 
 func (iter *Iterator) Map(f func(interface{}) interface{}) *Iterator {
 	iteratorCopy := NewIterator([]interface{}{})
 
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		iteratorCopy.append(f(item))
 	}
 
@@ -13,7 +13,7 @@ func (iter *Iterator) Map(f func(interface{}) interface{}) *Iterator {
 func (iter *Iterator) Filter(f func(interface{}) bool) *Iterator {
 	iteratorCopy := NewIterator([]interface{}{})
 
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		if f(item) {
 			iteratorCopy.append(item)
 		}
@@ -25,7 +25,7 @@ func (iter *Iterator) Filter(f func(interface{}) bool) *Iterator {
 func (iter *Iterator) Reduce(f func(interface{}, interface{}) interface{}) interface{} {
 	var result interface{}
 
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		result = f(result, item)
 	}
 
@@ -45,7 +45,7 @@ func (iter *Iterator) Count() int {
 }
 
 func (iter *Iterator) All(f func(interface{}) bool) bool {
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		if !f(item) {
 			return false
 		}
@@ -55,7 +55,7 @@ func (iter *Iterator) All(f func(interface{}) bool) bool {
 }
 
 func (iter *Iterator) Any(f func(interface{}) bool) bool {
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		if f(item) {
 			return true
 		}
@@ -65,7 +65,7 @@ func (iter *Iterator) Any(f func(interface{}) bool) bool {
 }
 
 func (iter *Iterator) ForEach(f func(interface{})) {
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		f(item)
 	}
 }
@@ -75,9 +75,9 @@ func (iter *Iterator) ToSlice() []interface{} {
 }
 
 func (iter *Iterator) ToMap(f func(interface{}) (interface{}, interface{})) map[interface{}]interface{} {
-	var m map[interface{}]interface{}
+	m := make(map[interface{}]interface{})
 
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		key, value := f(item)
 
 		m[key] = value
@@ -87,9 +87,9 @@ func (iter *Iterator) ToMap(f func(interface{}) (interface{}, interface{})) map[
 }
 
 func (iter *Iterator) ToSet() map[interface{}]bool {
-	var set map[interface{}]bool
+	set := make(map[interface{}]bool)
 
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		set[item] = true
 	}
 
@@ -97,9 +97,9 @@ func (iter *Iterator) ToSet() map[interface{}]bool {
 }
 
 func (iter *Iterator) ToChannel() chan interface{} {
-	var channel chan interface{}
+	channel := make(chan interface{})
 
-	for item, _ := range iter.items {
+	for item := range iter.items {
 		channel <- item
 	}
 

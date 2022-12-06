@@ -1,4 +1,4 @@
-package iterator
+package go_iterable
 
 type Iterator struct {
 	items []interface{}
