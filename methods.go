@@ -1,19 +1,19 @@
 package go_iterable
 
-func (iter *Iterator) Map(f func(interface{}) interface{}) *Iterator {
-	iteratorCopy := NewIterator([]interface{}{})
+func (iter *Iterable[T]) Map(f func(T) T) *Iterable[T] {
+	iteratorCopy := NewIterable(make([]T, len(iter.items)))
 
-	for item := range iter.items {
+	for _, item := range iter.items {
 		iteratorCopy.append(f(item))
 	}
 
 	return iteratorCopy
 }
 
-func (iter *Iterator) Filter(f func(interface{}) bool) *Iterator {
-	iteratorCopy := NewIterator([]interface{}{})
+func (iter *Iterable[T]) Filter(f func(T) bool) *Iterable[T] {
+	iteratorCopy := NewIterable(make([]T, 0))
 
-	for item := range iter.items {
+	for _, item := range iter.items {
 		if f(item) {
 			iteratorCopy.append(item)
 		}
@@ -22,30 +22,30 @@ func (iter *Iterator) Filter(f func(interface{}) bool) *Iterator {
 	return iteratorCopy
 }
 
-func (iter *Iterator) Reduce(f func(interface{}, interface{}) interface{}) interface{} {
-	var result interface{}
+func (iter *Iterable[T]) Reduce(f func(T, T) T, initial T) T {
+	result := initial
 
-	for item := range iter.items {
+	for _, item := range iter.items {
 		result = f(result, item)
 	}
 
 	return result
 }
 
-func (iter *Iterator) First() interface{} {
+func (iter *Iterable[T]) First() T {
 	return iter.items[0]
 }
 
-func (iter *Iterator) Last() interface{} {
+func (iter *Iterable[T]) Last() T {
 	return iter.items[len(iter.items)-1]
 }
 
-func (iter *Iterator) Count() int {
+func (iter *Iterable[T]) Count() int {
 	return len(iter.items)
 }
 
-func (iter *Iterator) All(f func(interface{}) bool) bool {
-	for item := range iter.items {
+func (iter *Iterable[T]) All(f func(T) bool) bool {
+	for _, item := range iter.items {
 		if !f(item) {
 			return false
 		}
@@ -54,8 +54,8 @@ func (iter *Iterator) All(f func(interface{}) bool) bool {
 	return true
 }
 
-func (iter *Iterator) Any(f func(interface{}) bool) bool {
-	for item := range iter.items {
+func (iter *Iterable[T]) Any(f func(T) bool) bool {
+	for _, item := range iter.items {
 		if f(item) {
 			return true
 		}
@@ -64,42 +64,20 @@ func (iter *Iterator) Any(f func(interface{}) bool) bool {
 	return false
 }
 
-func (iter *Iterator) ForEach(f func(interface{})) {
-	for item := range iter.items {
+func (iter *Iterable[T]) ForEach(f func(T)) {
+	for _, item := range iter.items {
 		f(item)
 	}
 }
 
-func (iter *Iterator) ToSlice() []interface{} {
+func (iter *Iterable[T]) ToSlice() []T {
 	return iter.items
 }
 
-func (iter *Iterator) ToMap(f func(interface{}) (interface{}, interface{})) map[interface{}]interface{} {
-	m := make(map[interface{}]interface{})
+func (iter *Iterable[T]) ToChannel() chan T {
+	channel := make(chan T, len(iter.items))
 
-	for item := range iter.items {
-		key, value := f(item)
-
-		m[key] = value
-	}
-
-	return m
-}
-
-func (iter *Iterator) ToSet() map[interface{}]bool {
-	set := make(map[interface{}]bool)
-
-	for item := range iter.items {
-		set[item] = true
-	}
-
-	return set
-}
-
-func (iter *Iterator) ToChannel() chan interface{} {
-	channel := make(chan interface{})
-
-	for item := range iter.items {
+	for _, item := range iter.items {
 		channel <- item
 	}
 
