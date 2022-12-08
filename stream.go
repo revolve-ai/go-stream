@@ -5,15 +5,7 @@ type Stream[T comparable] struct {
 }
 
 func New[T comparable](data []T) *Stream[T] {
-	stream := &Stream[T]{
-		data: make([]T, 0),
-	}
-
-	for _, item := range data {
-		stream.Append(item)
-	}
-
-	return stream
+	return &Stream[T]{data}
 }
 
 func Of[T comparable](data ...T) *Stream[T] {
