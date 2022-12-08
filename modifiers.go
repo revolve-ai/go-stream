@@ -165,20 +165,3 @@ func (stream *Stream[T]) Reverse() *Stream[T] {
 
 	return stream
 }
-
-func test() {
-	manual := make(chan int, 10)
-
-	manual <- 1
-	manual <- 2
-	manual <- 3
-	manual <- 4
-	manual <- 5
-	manual <- 6
-	manual <- 7
-	manual <- 8
-	manual <- 9
-	manual <- 10
-
-	_ = Of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).ToChannel()
-}
