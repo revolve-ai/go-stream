@@ -1,15 +1,28 @@
 package go_iterable
 
-func (iter *Iterable[T]) ToSlice() []T {
-	return iter.items
+// ToSlice returns the data in the iterable as a slice.
+func (stream *Stream[T]) ToSlice() []T {
+	return stream.data
 }
 
-func (iter *Iterable[T]) ToChannel() chan T {
-	channel := make(chan T, len(iter.items))
+// ToChannel returns the data in the iterable as a channel.
+func (stream *Stream[T]) ToChannel() chan T {
+	channel := make(chan T, len(stream.data))
 
-	for _, item := range iter.items {
+	for _, item := range stream.data {
 		channel <- item
 	}
 
 	return channel
+}
+
+// ToMap returns the data in the iterable as a map.
+func (stream *Stream[T]) ToMap() map[int]T {
+	m := make(map[int]T, len(stream.data))
+
+	for index, item := range stream.data {
+		m[index] = item
+	}
+
+	return m
 }

@@ -17,31 +17,31 @@ go get github.com/r-evolve/go-iterable
 package main
 
 import (
-	"fmt"
-	"github.com/r-evolve/go-iterable"
+    "fmt"
+    "github.com/r-evolve/go-iterable"
 )
 
 func main() {
-	// Create an iterable from a slice
-	iterable := go_iterable.NewIterable([]int{1, 2, 3, 4, 5})
+    // Create an iterable from a slice
+    stream := go_iterable.New([]int{1, 2, 3, 4, 5})
 
-	// Filter the iterable
-	iterable = iterable.Filter(func(i int) bool {
-		return i > 2
-	})
+    // Filter the iterable
+    stream = stream.Filter(func(i int) bool {
+        return i > 2
+    })
 
-	// Map the iterable
-	iterable = iterable.Map(func(i int) int {
-		return i * 2
-	})
+    // Map the iterable
+    stream = stream.Map(func(i int) int {
+        return i * 2
+    })
 
-	// Reduce the iterable
-	sum := iterable.Reduce(func(a, b int) int {
-		return a + b
-	}, 0)
+    // Reduce the iterable
+    sum := stream.Reduce(func(a, b int) int {
+        return a + b
+    }, 0)
 
-	// Print the result
-	fmt.Println(sum)
+    // Print the result
+    fmt.Println(sum)
 }
 ```
 
@@ -51,23 +51,40 @@ func main() {
 package main
 
 import (
-	"fmt"
-	"github.com/r-evolve/go-iterable"
+    "fmt"
+    "github.com/r-evolve/go-iterable"
 )
 
-func main() {
-	// Create an iterable from a slice
-    iterable := go_iterable.NewIterable([]int{1, 2, 3, 4, 5})
+func main() { 
+    // Create an iterable from a slice
+    stream := go_iterable.New([]int{1, 2, 3, 4, 5})
 
     // Print the result
-    fmt.Println(iterable.Filter(func(i int) bool {
-	return i > 2
+    fmt.Println(stream.Filter(func(i int) bool {
+        return i > 2
     }).Map(func(i int) int {
         return i * 2
     }).Reduce(func(a, b int) int {
         return a + b
     }, 0))
 }
+```
+
+## Other examples
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/r-evolve/go-iterable"
+)
+
+func main() {
+    // Create channels from single values
+    _ = go_iterable.Of(1, 2, 3, 4, 5).ToChannel()
+}
+
 ```
 
 ## Documentation
