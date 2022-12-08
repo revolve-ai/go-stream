@@ -1,18 +1,19 @@
-package go_iterable
+package go_stream_test
 
 import (
+	"github.com/r-evolve/go-stream"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestIterable_ToSlice(t *testing.T) {
-	iter := New([]int{1, 2, 3, 4, 5})
+	iter := go_stream.New([]int{1, 2, 3, 4, 5})
 
 	assert.Equal(t, []int{1, 2, 3, 4, 5}, iter.ToSlice())
 }
 
 func TestIterable_ToChannel(t *testing.T) {
-	iter := New([]int{1, 2, 3, 4, 5})
+	iter := go_stream.New([]int{1, 2, 3, 4, 5})
 
 	channel := iter.ToChannel()
 
@@ -22,7 +23,7 @@ func TestIterable_ToChannel(t *testing.T) {
 }
 
 func TestIterable_ToMap(t *testing.T) {
-	iter := New([]int{1, 2, 3, 4, 5})
+	iter := go_stream.New([]int{1, 2, 3, 4, 5})
 
 	result := iter.ToMap()
 

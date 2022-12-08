@@ -1,4 +1,4 @@
-package go_iterable
+package go_stream
 
 type Predicate[T comparable] func(T) bool
 type Comparator[T comparable] func(T, T) int

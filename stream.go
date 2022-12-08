@@ -1,4 +1,4 @@
-package go_iterable
+package go_stream
 
 type Stream[T comparable] struct {
 	data []T

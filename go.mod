@@ -1,4 +1,4 @@
-module github.com/r-evolve/go-iterable
+module github.com/r-evolve/go-stream
 
 go 1.19
 

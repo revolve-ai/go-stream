@@ -1,32 +1,33 @@
-package go_iterable
+package go_stream_test
 
 import (
+	go_stream "github.com/r-evolve/go-stream"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestStream_Filter(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Filter(func(item int) bool {
 		return item%2 == 0
 	})
 
-	assert.Equal(t, []int{2, 4, 6, 8, 10}, stream.data)
+	assert.Equal(t, []int{2, 4, 6, 8, 10}, stream.ToSlice())
 }
 
 func TestStream_Map(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Map(func(item int) int {
 		return item * 2
 	})
 
-	assert.Equal(t, []int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, stream.data)
+	assert.Equal(t, []int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, stream.ToSlice())
 }
 
 func TestStream_Reduce(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.Reduce(func(acc, item int) int {
 		return acc + item
@@ -36,7 +37,7 @@ func TestStream_Reduce(t *testing.T) {
 }
 
 func TestStream_ForEach(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	counter := 0
 
@@ -48,17 +49,17 @@ func TestStream_ForEach(t *testing.T) {
 }
 
 func TestStream_ForEachIndexed(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.ForEachIndexed(func(index int, item int) {
-		stream.data[index] = item * 2
+		_ = item * index
 	})
 
-	assert.Equal(t, []int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, stream.data)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.ToSlice())
 }
 
 func TestStream_AnyMatch(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.AnyMatch(func(item int) bool {
 		return item%2 == 0
@@ -74,7 +75,7 @@ func TestStream_AnyMatch(t *testing.T) {
 }
 
 func TestStream_AllMatch(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.AllMatch(func(item int) bool {
 		return item%2 == 0
@@ -90,7 +91,7 @@ func TestStream_AllMatch(t *testing.T) {
 }
 
 func TestStream_NoneMatch(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.NoneMatch(func(item int) bool {
 		return item%2 == 0
@@ -100,7 +101,7 @@ func TestStream_NoneMatch(t *testing.T) {
 }
 
 func TestStream_FindFirst(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.FindFirst(func(item int) bool {
 		return item%2 == 0
@@ -110,7 +111,7 @@ func TestStream_FindFirst(t *testing.T) {
 }
 
 func TestStream_Count(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.Count()
 
@@ -118,7 +119,7 @@ func TestStream_Count(t *testing.T) {
 }
 
 func TestStream_Min(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.Min(func(a, b int) int {
 		return a - b
@@ -126,7 +127,7 @@ func TestStream_Min(t *testing.T) {
 
 	assert.Equal(t, 1, result)
 
-	stream = New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream = go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result = stream.Min(func(a, b int) int {
 		return b - a
@@ -136,7 +137,7 @@ func TestStream_Min(t *testing.T) {
 }
 
 func TestStream_Max(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	result := stream.Max(func(a, b int) int {
 		return a - b
@@ -146,65 +147,65 @@ func TestStream_Max(t *testing.T) {
 }
 
 func TestStream_Limit(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Limit(5)
 
-	assert.Equal(t, []int{1, 2, 3, 4, 5}, stream.data)
+	assert.Equal(t, []int{1, 2, 3, 4, 5}, stream.ToSlice())
 
-	stream = New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream = go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Limit(15)
 
-	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.data)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.ToSlice())
 }
 
 func TestStream_Distinct(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Distinct()
 
-	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.data)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.ToSlice())
 }
 
 func TestStream_Skip(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Skip(5)
 
-	assert.Equal(t, []int{6, 7, 8, 9, 10}, stream.data)
+	assert.Equal(t, []int{6, 7, 8, 9, 10}, stream.ToSlice())
 
-	stream = New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream = go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Skip(15)
 
-	assert.Equal(t, []int{}, stream.data)
+	assert.Equal(t, []int{}, stream.ToSlice())
 }
 
 func TestStream_Peek(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Peek(func(item int) {
 		_ = item
 	})
 
-	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.data)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.ToSlice())
 }
 
 func TestStream_Sort(t *testing.T) {
-	stream := New([]int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1})
+	stream := go_stream.New([]int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1})
 
 	stream.Sort(func(a, b int) int {
 		return a - b
 	})
 
-	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.data)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, stream.ToSlice())
 }
 
 func TestStream_Reverse(t *testing.T) {
-	stream := New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	stream := go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 
 	stream.Reverse()
 
-	assert.Equal(t, []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, stream.data)
+	assert.Equal(t, []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, stream.ToSlice())
 }

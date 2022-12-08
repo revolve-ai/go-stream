@@ -1,4 +1,4 @@
-package go_iterable
+package go_stream
 
 func (stream *Stream[T]) Filter(f Predicate[T]) *Stream[T] {
 	for _, item := range stream.data {

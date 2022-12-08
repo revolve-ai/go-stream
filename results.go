@@ -1,4 +1,4 @@
-package go_iterable
+package go_stream
 
 // ToSlice returns the data in the iterable as a slice.
 func (stream *Stream[T]) ToSlice() []T {
