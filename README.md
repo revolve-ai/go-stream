@@ -1,14 +1,13 @@
-# go-iterable
-
+# go-stream
 [![GoDoc](https://godoc.org/github.com/r-evolve/go-iterable?status.svg)](https://godoc.org/github.com/r-evolve/go-iterable)
 
 ## Summary
-go-iterable is a Go library for working with iterables.
+go-stream is a Go library for working with streamed data.
 It is inspired by the Java 8 Stream API.
 
 ## Installation
 ```bash
-go get github.com/r-evolve/go-iterable
+go get github.com/r-evolve/go-stream
 ```
 
 ## Usage
@@ -18,12 +17,12 @@ package main
 
 import (
     "fmt"
-    "github.com/r-evolve/go-iterable"
+    "github.com/r-evolve/go-stream"
 )
 
 func main() {
     // Create an iterable from a slice
-    stream := go_iterable.New([]int{1, 2, 3, 4, 5})
+    stream := go_stream.New([]int{1, 2, 3, 4, 5})
 
     // Filter the iterable
     stream = stream.Filter(func(i int) bool {
@@ -52,12 +51,12 @@ package main
 
 import (
     "fmt"
-    "github.com/r-evolve/go-iterable"
+    "github.com/r-evolve/go-stream"
 )
 
 func main() { 
     // Create an iterable from a slice
-    stream := go_iterable.New([]int{1, 2, 3, 4, 5})
+    stream := go_stream.New([]int{1, 2, 3, 4, 5})
 
     // Print the result
     fmt.Println(stream.Filter(func(i int) bool {
@@ -77,12 +76,12 @@ package main
 
 import (
     "fmt"
-    "github.com/r-evolve/go-iterable"
+    "github.com/r-evolve/go-stream"
 )
 
 func main() {
     // Create channels from single values
-    _ = go_iterable.Of(1, 2, 3, 4, 5).ToChannel()
+    _ = go_stream.Of(1, 2, 3, 4, 5).ToChannel()
 }
 
 ```
