@@ -1,7 +1,7 @@
 package go_stream_test
 
 import (
-	go_stream "github.com/r-evolve/go-stream"
+	"github.com/r-evolve/go-stream"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -24,6 +24,8 @@ func TestStream_Map(t *testing.T) {
 	})
 
 	assert.Equal(t, []int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, stream.ToSlice())
+
+	stream = go_stream.New([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 }
 
 func TestStream_Reduce(t *testing.T) {

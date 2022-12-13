@@ -1,13 +1,13 @@
 package go_stream_test
 
 import (
-	go_stream "github.com/r-evolve/go-stream"
+	"github.com/r-evolve/go-stream"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestNew(t *testing.T) {
-	stream := go_stream.New([]int{1, 2, 3, 4, 5})
+	stream := go_stream.New[int]([]int{1, 2, 3, 4, 5})
 
 	assert.Equal(t, []int{1, 2, 3, 4, 5}, stream.ToSlice())
 }
